@@ -2,13 +2,72 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
-    <title> Smile</title>
+    <title> Smile:)</title>
     <link rel="stylesheet" href="CSS/style.css">
     <script src="http://d3js.org/d3.v7.min.js"> </script>
     <script src="JavaScript/main.js"></script>
     <script src="JavaScript/image.js"></script>
+    <script src="JavaScript/path.js"></script>
   </head>
   <body>   
+    <form id="setting">
+        <div>
+            <!--Координаты-->
+            <fieldset>
+                <legend class="bold-font">Координаты рисунка</legend>
+
+                <label for="cx">x:</label>
+                <input type="number" id="cx" value="0" max="600" min="0">
+                <label for="cxEnd">до:</label>
+                <input type="number" id="cxEnd" value="300" max="600" min="0"><br>
+
+                <label for="cy">y:</label>
+                <input type="number" id="cy" value="0" max="600" min="0">
+                <label for="cyEnd">до:</label>
+                <input type="number" id="cyEnd" value="300" max="600" min="0">
+            </fieldset>
+
+            <!--пути перемещения-->
+            <fieldset>
+              <legend class="bold-font">Пути перемещения</legend>
+              <select id="pathSelect">
+                <option value="0">Буквой "Г"</option>
+                <option value="1">По кругу</option>
+              </select>
+            </fieldset>
+
+            <!--Маштаб-->
+            <fieldset>
+                <legend class="bold-font">Масштаб</legend>
+                <label for="xscale">по x:</label>
+                <input type="number" id="xscale" value="1" max="10" min="0">
+                <label for="xscaleEnd">до: </label>
+                <input type="number" id="xscaleEnd" value="2" max="10" min="0"><br>
+                <label for="yscale">по y:</label>
+                <input type="number" id="yscale" value="1" max="10" min="0">
+                <label for="yscaleEnd">до: </label>
+                <input type="number" id="yscaleEnd" value="2" max="10" min="0">
+            </fieldset>
+            
+            <!--Поворот-->
+            <fieldset>
+                <legend class="bold-font">Поворот</legend>
+                <label for="angle">Угол: от</label>
+                <input type="number" id="angle" value="0" max="360" min="0">
+                <label for="angleEnd">до: </label>
+                <input type="number" id="angleEnd" value="180" max="360" min="0"><br>
+            </fieldset>
+        </div>
+
+        <input type="button" value="Нарисовать" id="drawButton" onclick="draw(this.form)">
+        <input type="button" value="Анимировать" id="animButton" onclick="runAnimation(this.form)">
+        <input type="button" value="Очистить" onclick="clearForm(this.form)">
+
+
+        <span><input type="checkbox" id="animationCbx"> Включить анимацию? <select id="animationType"></select></span>
+        <span><input type="checkbox" id="pathCbx"> Перемещение вдоль пути?</span><br>
+        
+    </form>
 
     <svg></svg>
 

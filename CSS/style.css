@@ -1,0 +1,102 @@
+/*переменные*/
+:root {
+  --main-font-family: "Spot Mono", monospace;
+  --main-font-size: 14px;
+  --main-block-margin: 0.5% 0.5%;
+  --main-border-radius: 8px;
+  --main-background-color-input-enabled:lightcoral;
+  --main-background-color-input-disabled: lightgrey;
+  --main-border: border: 2px solid transparent;
+  --main-transition-input: background-color 1s, transform 1s;
+}
+
+/*установка шрифта и его размера*/
+body {
+  font-family: var(--main-font-family);
+  font-size: var(--main-font-size);
+}
+
+/*flex + чтобы не переносились*/
+#setting div {
+  display: flex;
+  margin: var(--main-block-margin);
+  white-space: nowrap;
+  gap: 20px;
+  text-align: center;
+}
+
+/*анимация для разделов*/
+#setting div fieldset {
+  transition: transform 1s;
+  border-radius: var(--main-border-radius);
+}
+#setting div fieldset:hover {
+  transform: scale(105%);
+  transition: 1s;
+}
+
+/*для центрирования легенды*/
+#setting div fieldset legend {
+  text-align: center;
+}
+
+/*для шрифта селекта*/
+#setting select {
+  font-family: var(--main-font-family);
+}
+
+/*для разделов с включением анимации и перемещения*/
+#setting span {
+  display: inline-flex; 
+  align-items: center;
+  padding: 5px 10px;
+}
+
+/*для заголовков*/
+.bold-font {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/*для отображение картинки*/
+svg {
+    border: 2px solid black;
+    border-radius: var(--main-border-radius);
+    margin:var(--main-block-margin);
+}
+
+/*поле ввода с анимацией*/
+input[type="number"] {
+  border: var(--main-border);
+  transition: var(--main-transition-input);
+  background-color: var(--main-background-color-input-disabled);
+  border-radius: var(--main-border-radius);
+  width: 50px;
+  margin: 5px;
+  padding: 5px;
+  font-family: var(--main-font-family);
+}
+/*убрал стрелочки*/
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  display: none;
+}
+
+/*кнопки с анимацией*/
+input[type="button"] {
+  background-color: var(--main-background-color-input-disabled);
+  transition: var(--main-transition-input);
+  border: var(--main-border);
+  border-radius: var(--main-border-radius);
+  padding: 5px 10px;
+  margin: var(--main-block-margin);
+  font-family: var(--main-font-family);
+}
+
+/*анимация для кнопок и для полей ввода*/
+input[type="button"]:hover,
+input[type="number"]:hover {
+  transition: 1s;
+  background-color: var(--main-background-color-input-enabled);
+  transform: scale(110%);
+}
