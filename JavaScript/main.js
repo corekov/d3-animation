@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function() {
 // рисуем картинку
 let draw = (dataForm) => {
 	const svg = d3.select("svg")
-    let pict = drawSmile(svg)
+    const selectedImage = dataForm.imageSelect.value;
+    let pict = chooseImage(selectedImage,svg);
     pict.attr("transform", `translate(${dataForm.cx.value},
                                     ${dataForm.cy.value})
                             scale(${dataForm.xscale.value},
@@ -37,8 +38,12 @@ let draw = (dataForm) => {
 
 // очистка форм
 let clearForm = (dataForm) => {
-    dataForm.cx.value = 0;
-    dataForm.cy.value = 0;
+
+    dataForm.imageSelect.value = 0;
+    dataForm.pathSelect.value = 0;
+
+    dataForm.cx.value = 300;
+    dataForm.cy.value = 300;
     dataForm.cxEnd.value = 300;
     dataForm.cyEnd.value = 300;
 
@@ -49,6 +54,8 @@ let clearForm = (dataForm) => {
 
     dataForm.angle.value = 0;
     dataForm.angleEnd.value = 180;
+
+    dataForm.time.value = 5;
 
     d3.select("svg").selectAll('*').remove();
 
@@ -62,12 +69,14 @@ let clearForm = (dataForm) => {
 // запуск анимации
 let runAnimation = (dataForm) => {
 	const svg = d3.select("svg")
-    let pict = drawSmile(svg);
+    const selectedImage = dataForm.imageSelect.value;
+    let pict = chooseImage(selectedImage,svg);
 
     let slct = dataForm.animationType;
     let animType = slct.options[slct.selectedIndex].value;
 
     let resType;
+    let time = dataForm.time.value * 1000;
 
     switch(animType) {
         case "linear":
@@ -81,26 +90,30 @@ let runAnimation = (dataForm) => {
     }
 
     if (dataForm.pathCbx.checked) {
+        let dataChangesPath = [+dataForm.xscale.value, +dataForm.xscaleEnd.value,
+            +dataForm.yscale.value, +dataForm.yscaleEnd.value,
+            +dataForm.angle.value, +dataForm.angleEnd.value];
+
         let path = drawPath(dataForm.pathSelect.value);
+        
         pict.transition()
             .ease(resType) // установить в зависимости от настроек формы
-            .duration(6000)
-            .attrTween('transform', translateAlong(path.node()));
-        return;
-    }
-
-    pict.attr("transform", `translate(${dataForm.cx.value}, ${dataForm.cy.value}) 
+            .duration(time)
+            .attrTween('transform', translateAlong(path.node(), dataChangesPath));
+    } else {
+        pict.attr("transform", `translate(${dataForm.cx.value}, ${dataForm.cy.value}) 
                             scale(${dataForm.xscale.value}, ${dataForm.yscale.value}) 
                             rotate(${dataForm.angle.value})`)
         .transition()
-        .duration(6000)
+        .duration(time)
         .ease(resType)
         .attr("transform", `translate(${dataForm.cxEnd.value}, ${dataForm.cyEnd.value}) 
                             scale(${dataForm.xscaleEnd.value}, ${dataForm.yscaleEnd.value}) 
                             rotate(${dataForm.angleEnd.value})`);
+    }
 }
 
-// устанавливаем значения в select 
+// устанавливаем значения в select выбора анимации
 function createOptionsInSelect() {
     let select = document.getElementById("animationType");
 
@@ -148,6 +161,8 @@ function manageAnimationPage(animCbx) {
     let drawButton = document.getElementById("drawButton");
     drawButton.style.display = btnState;
 
+    let fieldsetTime = document.getElementById("fieldsetTime");
+    fieldsetTime.style.display = displayState;
 }
 
 // режим перемещения вдоль пути
@@ -157,6 +172,11 @@ function managePathPage(pathCbx) {
 
     let paragraphs = d3.select("#setting").select("div").selectAll("fieldset")._groups[0];
 
-    paragraphs[0].style.display = displays[1-ind];
-    paragraphs[1].style.display = displays[ind];
+    paragraphs[1].style.display = displays[1-ind];
+    paragraphs[2].style.display = displays[ind];
+}
+
+// выбор рисунка
+let chooseImage = (value,svg) => {
+    return (value == 0) ? drawSmile(svg) : drawAndroid(svg);
 }

@@ -14,6 +14,7 @@
 body {
   font-family: var(--main-font-family);
   font-size: var(--main-font-size);
+  text-align: center;
 }
 
 /*flex + чтобы не переносились*/
@@ -23,6 +24,7 @@ body {
   white-space: nowrap;
   gap: 20px;
   text-align: center;
+  justify-content: center;
 }
 
 /*анимация для разделов*/
@@ -40,9 +42,14 @@ body {
   text-align: center;
 }
 
-/*для шрифта селекта*/
+/*для селекта*/
 #setting select {
+  transition: transform 1s;
   font-family: var(--main-font-family);
+}
+#setting select:hover {
+  transform: scale(105%);
+  transition: 1s;
 }
 
 /*для разделов с включением анимации и перемещения*/
@@ -50,6 +57,10 @@ body {
   display: inline-flex; 
   align-items: center;
   padding: 5px 10px;
+}
+
+#setting span select {
+  margin: 0 10px;
 }
 
 /*для заголовков*/
